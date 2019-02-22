@@ -1,20 +1,73 @@
-// ClaseDef.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
-//
+#include "utils.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-#include "pch.h"
-#include <iostream>
+//PROGRAMA PARA LEER GRAFOS
 
-int main()
-{
-    std::cout << "Hello World!\n"; 
+//MATRICES
+
+bool** allocate_matrix(int N, int M) {
+	bool** m = (bool**)malloc(sizeof(bool*)*N);
+	for (int i = 0; i < N; i++) {
+		m[i] = (bool*)malloc(sizeof(bool)*M);
+	}
+	//Check if (m == NULL)return NULL; // perror
+	//
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			m[i][j] = 0;
+		}
+	}
+
+	return m;
+
 }
 
-// Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
-// Depurar programa: F5 o menú Depurar > Iniciar depuración
+void free_matrix(bool** m, int N) {
+	for (int i = 0; i < N; i++) {
+		free(m[i]);
+	}
+	free(m);
+	m = NULL;
+}
 
-// Sugerencias para primeros pasos: 1. Use la ventana del Explorador de soluciones para agregar y administrar archivos
-//   2. Use la ventana de Team Explorer para conectar con el control de código fuente
-//   3. Use la ventana de salida para ver la salida de compilación y otros mensajes
-//   4. Use la ventana Lista de errores para ver los errores
-//   5. Vaya a Proyecto > Agregar nuevo elemento para crear nuevos archivos de código, o a Proyecto > Agregar elemento existente para agregar archivos de código existentes al proyecto
-//   6. En el futuro, para volver a abrir este proyecto, vaya a Archivo > Abrir > Proyecto y seleccione el archivo .sln
+void print_matrix(bool ** m, int N, int M) {
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			printf("%d ", m[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+//GRAFOS
+
+graph* init_graph(int NV) {
+	graph* pg = (graph*)malloc(sizeof(graph));
+	pg->NV = NV;
+	pg->adj = allocate_matrix(pg->NV, pg->NV);
+
+	return pg;
+
+}
+
+void free_graph(graph* pg) {
+	free_matrix(pg->adj, pg->NV);
+	free(pg);
+	pg = NULL;
+}
+
+void print_header(graph* pg) {
+	printf("Grafo con %d vertices\n", pg->NV);
+}
+
+void print_edges(graph* pg) { //Imprime qué nodos están enlazados, no la matriz en sí
+	for (int i = 0; i < pg->NV; i++) {
+		for (int j = i + 1; j < pg->NV; j++) { //j = i + 1 para solo parte superior
+			if (pg->adj[i][j] == 1) {
+				printf("%d...%d\n", i + 1, j + 1);
+			}
+		}
+	}
+}
