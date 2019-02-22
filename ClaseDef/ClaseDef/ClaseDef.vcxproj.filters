@@ -26,10 +26,10 @@
     <ClCompile Include="pch.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="ClaseDef.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Clase.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
